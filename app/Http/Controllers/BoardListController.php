@@ -11,9 +11,16 @@ class BoardListController extends Controller
     public function store(Request $request, Board $board)
     {
         $this->authorizeBoard($board);
-        $data = $request->validate(['name' => 'required|string|max:255']);
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'color' => ['nullable', 'regex:/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/']
+        ]);
         $position = ($board->lists()->max('position') ?? 0) + 1000;
-        $board->lists()->create(['name' => $data['name'], 'position' => $position]);
+        $board->lists()->create([
+            'name' => $data['name'],
+            'position' => $position,
+            'color' => $data['color'] ?? null,
+        ]);
         return back();
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Card extends Model
 {
-    protected $fillable = ['board_list_id', 'title', 'description', 'due_at', 'owner_id', 'position'];
+    protected $fillable = ['board_list_id','title','description','due_at','owner_id','position','color'];
     protected $casts = ['due_at' => 'datetime'];
 
     public function list(): BelongsTo

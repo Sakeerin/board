@@ -12,12 +12,16 @@ class CardController extends Controller
     public function store(Request $request, BoardList $list)
     {
         $this->authorizeBoard($list->board);
-        $data = $request->validate(['title' => 'required|string|max:255']);
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'color' => ['nullable', 'regex:/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/'],
+        ]);
         $position = ($list->cards()->max('position') ?? 0) + 1000;
         $list->cards()->create([
             'title' => $data['title'],
             'position' => $position,
-            'owner_id' => auth()->id()
+            'owner_id' => auth()->id(),
+            'color' => $data['color'] ?? null,
         ]);
         return back();
     }
@@ -26,9 +30,10 @@ class CardController extends Controller
     {
         $this->authorizeBoard($card->list->board);
         $data = $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
-            'due_at' => 'nullable|date'
+            'due_at'      => 'nullable|date',
+            'color'       => ['nullable', 'regex:/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/'],
         ]);
         $card->update($data);
         return back();
