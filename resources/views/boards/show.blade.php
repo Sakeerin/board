@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="flex items-center gap-3 mb-4">
+  <a href="{{ route('boards.index') }}" class="ml-2 text-sm underline text-blue-900 text-bold">Back to board</a>
+  <div class="flex items-center gap-3 mb-4" style="background: {{ $board->color ?: '#ffffff' }}; border-radius: 0.75rem; padding: 0.75rem;">
     <h1 class="text-xl font-semibold">{{ $board->name }}</h1>
     <form action="{{ route('boards.destroy', $board) }}" method="POST" class="ml-auto">
       @csrf @method('DELETE')

@@ -21,6 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Settings
+    Route::get('/boards/{board}/settings', [BoardController::class, 'settings'])->name('boards.settings');
+    Route::post('/boards/{board}/settings', [BoardController::class, 'updateSettings'])->name('boards.settings.update');
+    Route::post('/boards/{board}/invite', [BoardController::class, 'invite'])->name('boards.invite');
+    Route::delete('/boards/{board}/members/{user}', [BoardController::class, 'removeMember'])->name('boards.members.remove');
+
     // Borads 
     Route::resource('boards', BoardController::class)->only(['index','store','show','destroy']);
     Route::post('/boards/{board}/lists', [BoardListController::class, 'store'])->name('lists.store');

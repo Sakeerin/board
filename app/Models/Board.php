@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Board extends Model
 {
-    protected $fillable = ['name', 'owner_id'];
+    protected $fillable = ['name', 'owner_id', 'start_date', 'end_date', 'priority', 'color'];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+    ];
 
     public function owner(): BelongsTo
     {
